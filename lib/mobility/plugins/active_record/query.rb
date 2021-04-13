@@ -137,7 +137,7 @@ enabled for any one attribute on the model.
           end
 
           def order(opts, *rest)
-            return super unless @klass.method_defined? :mobility_attribute?
+            return super unless @klass.respond_to?(:mobility_attribute?)
 
             case opts
             when Symbol, String
@@ -163,7 +163,7 @@ enabled for any one attribute on the model.
               define_method method_name do |*attrs, &block|
                 return super(*attrs, &block) if (method_name == 'select' && block.present?)
 
-                return super(*attrs, &block) unless @klass.method_defined?(:mobility_attribute?) && attrs.any?(&@klass.method(:mobility_attribute?))
+                return super(*attrs, &block) unless @klass.respond_to?(:mobility_attribute?) && attrs.any?(&@klass.method(:mobility_attribute?))
 
                 keys = attrs.dup
 
